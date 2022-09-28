@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Intefaces\IProductService;
+use App\Services\ProductService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind(IProductService::class, ProductService::class);
     }
 }
