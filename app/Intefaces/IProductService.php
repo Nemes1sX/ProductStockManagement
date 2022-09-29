@@ -4,5 +4,5 @@ namespace App\Intefaces;
 
 interface IProductService
 {
-    function ImportProducts() : array;
+    function ImportProducts(array $importProducts) : array;
 }

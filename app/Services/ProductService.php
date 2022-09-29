@@ -8,12 +8,10 @@ use Carbon\Carbon;
 
 class ProductService implements IProductService
 {
-    public function ImportProducts() : array
+    public function ImportProducts(array $importProducts) : array
     {
-        $products = json_decode(file_get_contents(storage_path()."/products.json"));
-
         $data = [];
-        foreach ($products as $product) {
+        foreach ($importProducts as $product) {
             $existingProductSku = Product::where('sku', $product->sku)->first();
             if (!$existingProductSku) {
                 $data[] = [
