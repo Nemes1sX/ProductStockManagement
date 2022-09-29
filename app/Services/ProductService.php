@@ -32,4 +32,9 @@ class ProductService implements IProductService
 
         return $data;
     }
+
+    public function GetAllProducts() : array
+    {
+        return Product::all();
+    }
 }
