@@ -12,7 +12,7 @@ class ImportProduct extends Command
      *
      * @var string
      */
-    protected $signature = 'command:importProduct';
+    protected $signature = 'command:ImportProduct';
 
     /**
      * The console command description.

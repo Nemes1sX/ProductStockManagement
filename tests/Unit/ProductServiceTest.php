@@ -2,7 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Models\Product;
 use App\Services\ProductService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,7 +21,7 @@ class ProductServiceTest extends TestCase
         //$this->productService = $this->app->make(ProductService::class);
     }
 
-    public function test_product_import_service_successfully_all_product_import() : void
+    public function test_product_service_successfully_all_product_import() : void
     {
         $data = '[{
             "sku": "T-1",
@@ -41,10 +43,23 @@ class ProductServiceTest extends TestCase
         $data = json_decode($data);
         $products = $productService->ImportProducts($data);
 
+        $products = json_encode($products);
+        $products = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $products);
+        $products = json_decode($products);
+
         $this->assertEquals(count($products), count($data));
+        foreach($products as $product) {
+            $this->assertDatabaseHas('products', [
+               'sku' => $product->sku,
+               'size' => $product->size,
+               'description' => $product->description,
+               'photo' => $product->photo,
+               'updated_at' => $product->updated_at
+            ]);
+        }
     }
 
-    public function test_product_import_service_dont_import_duplicate_product() : void
+    public function test_product_service_dont_import_duplicate_product() : void
     {
         $data = '[{
             "sku": "T-1",
@@ -77,8 +92,15 @@ class ProductServiceTest extends TestCase
         $data = json_decode($data);
         $products = $productService->ImportProducts($data);
 
-
-
         $this->assertEquals(0, count($products));
+    }
+
+    function test_product_service_get_products_if_list_not_empty()
+    {
+        Product::factory(1)->create();
+        $productService = new ProductService();
+        $products = $productService->GetAllProducts();
+
+        $this->assertEquals(1, count($products));
     }
 }
