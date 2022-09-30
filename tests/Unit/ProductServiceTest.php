@@ -103,4 +103,37 @@ class ProductServiceTest extends TestCase
 
         $this->assertEquals(1, count($products));
     }
+
+    function test_product_service_get_products_if_list_empty()
+    {
+        $productService = new ProductService();
+        $products = $productService->GetAllProducts();
+
+        $this->assertEquals(0, count($products));
+    }
+
+    function test_product_service_return_related_products()
+    {
+        $products = Product::factory(4)->create();
+
+        $productService = new ProductService();
+        $relatedProducts = $productService->GetRelatedProducts($products[0]->id);
+
+        $this->assertEquals(3, count($relatedProducts));
+    }
+
+    function test_product_service_get_product_if_it_find()
+    {
+        $product = Product::factory(1)->create();
+
+        $productService = new ProductService();
+        $findProduct = $productService->GetProduct($product->first()->id);
+
+        $this->assertEquals($product->first()->id, $findProduct->id);
+        $this->assertEquals($product->first()->sku, $findProduct->sku);
+        $this->assertEquals($product->first()->size, $findProduct->size);
+        $this->assertEquals($product->first()->description, $findProduct->description);
+        $this->assertEquals($product->first()->photo, $findProduct->photo);
+    }
+
 }

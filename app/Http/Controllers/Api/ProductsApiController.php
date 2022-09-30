@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Intefaces\IProductService;
 
-class ProductsController extends Controller
+class ProductsApiController extends Controller
 {
     public function __construct(IProductService $productService)
     {
@@ -19,4 +20,6 @@ class ProductsController extends Controller
             'data' => $products
         ], 200);
     }
+
+
 }

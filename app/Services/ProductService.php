@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Intefaces\IProductService;
 use App\Models\Product;
 use Carbon\Carbon;
-use mysql_xdevapi\Collection;
 
 class ProductService implements IProductService
 {
@@ -37,5 +36,15 @@ class ProductService implements IProductService
     public function GetAllProducts()
     {
         return Product::all();
+    }
+
+    public function GetProduct(int $id): Product
+    {
+        return Product::find($id);
+    }
+
+    public function GetRelatedProducts(int $id)
+    {
+        return Product::all()->random(3);
     }
 }
