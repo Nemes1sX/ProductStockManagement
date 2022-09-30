@@ -12,15 +12,6 @@ class ProductServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $productService;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        //$this->productService = $this->app->make(ProductService::class);
-    }
-
     public function test_product_service_successfully_all_product_import() : void
     {
         $data = '[{
@@ -117,7 +108,7 @@ class ProductServiceTest extends TestCase
         $products = Product::factory(4)->create();
 
         $productService = new ProductService();
-        $relatedProducts = $productService->GetRelatedProducts($products[0]->id);
+        $relatedProducts = $productService->GetRelatedProducts($products->first()->id);
 
         $this->assertEquals(3, count($relatedProducts));
     }
