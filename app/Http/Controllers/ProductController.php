@@ -22,7 +22,7 @@ class ProductController extends Controller
         $product = $this->productService->GetProduct($id);
         $relatedProducts = $this->productService->GetRelatedProducts($product->id);
 
-        return view('product.show', compact('product', 'relatedProducts'));
+        return view('products.show', compact('product', 'relatedProducts'));
     }
 
 }
