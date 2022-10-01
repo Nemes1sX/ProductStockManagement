@@ -21,5 +21,15 @@ class ProductsApiController extends Controller
         ], 200);
     }
 
+    public function import()
+    {
+        $data =  json_decode(file_get_contents(storage_path()."/products.json"));
+
+        $products = $this->productService->ImportProducts($data);
+
+        return response()->json([
+            'data' => $products
+        ], 200);
+    }
 
 }

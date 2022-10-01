@@ -19,6 +19,11 @@ class ProductServiceTest extends TestCase
             "size": "XL",
             "description": "Test",
             "photo": "http://dummyimage.com/218x100.png/5fa2dd/ffffff",
+               "tags": [
+      {
+        "title": "Cookley"
+      }
+    ],
             "updated_at": "2022-06-01"
             },
             {
@@ -26,6 +31,11 @@ class ProductServiceTest extends TestCase
             "size": "L",
             "description": "Test1",
             "photo": "http://dummyimage.com/218x100.png/5fa2dd/ffffff",
+                   "tags": [
+      {
+        "title": "Cookley"
+      }
+    ],
             "updated_at": "2022-05-31"
             }]';
 
@@ -57,6 +67,11 @@ class ProductServiceTest extends TestCase
             "size": "XL",
             "description": "Test",
             "photo": "http://dummyimage.com/218x100.png/5fa2dd/ffffff",
+                "tags": [
+      {
+        "title": "Cookley"
+      }
+    ],
             "updated_at": "2022-06-01"
             },
             {
@@ -64,6 +79,11 @@ class ProductServiceTest extends TestCase
             "size": "L",
             "description": "Test1",
             "photo": "http://dummyimage.com/218x100.png/5fa2dd/ffffff",
+                "tags": [
+      {
+        "title": "Cookley"
+      }
+    ],
             "updated_at": "2022-05-31"
             }]';
 
@@ -77,6 +97,11 @@ class ProductServiceTest extends TestCase
             "size": "XL",
             "description": "Test",
             "photo": "http://dummyimage.com/218x100.png/5fa2dd/ffffff",
+                "tags": [
+      {
+        "title": "Cookley"
+      }
+    ],
             "updated_at": "2022-06-01"
             }]';
         $data = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $data);

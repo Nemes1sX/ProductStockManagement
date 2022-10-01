@@ -19,3 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get( '/product/index', [\App\Http\Controllers\Api\ProductsApiController::class, 'index'])
     ->name('product.api.index');
+Route::get('/product/import', [\App\Http\Controllers\Api\ProductsApiController::class, 'import'])
+    ->name('product.api.import');
