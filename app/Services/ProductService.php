@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Intefaces\IProductService;
 use App\Models\Product;
+use App\Models\Stock;
 use Carbon\Carbon;
 
 class ProductService implements IProductService
@@ -12,8 +13,8 @@ class ProductService implements IProductService
     {
         $data = [];
         foreach ($importProducts as $product) {
-            $existingProductSku = Product::where('sku', $product->sku)->first();
-            if (!$existingProductSku) {
+            $existingProduct = Product::where('sku', $product->sku)->first();
+            if (!$existingProduct) {
                 $data[] = [
                     'sku' => $product->sku,
                     'size' => $product->size,
@@ -33,9 +34,35 @@ class ProductService implements IProductService
         return $data;
     }
 
+    public function ImportProductsStock(array $importStocks)
+    {
+        $data = [];
+        foreach ($importStocks as $importStock)
+        {
+            $existingProduct = Product::where('sku', $importStock->sku)->first();
+            if ($existingProduct) {
+                $data[] = [
+                    'city' => $importStock->city,
+                    'quantity' => $importStock->stock,
+                    'product_id' => $existingProduct->id,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+
+            if(count($data) >= 1) {
+                foreach (array_chunk($data, 1000) as $chunk) {
+                    Stock::insert($chunk);
+                }
+            }
+        }
+
+        return $data;
+    }
+
     public function GetAllProducts()
     {
-        return Product::all();
+        return Product::withCount('stocks')->get();
     }
 
     public function GetProduct(int $id): Product

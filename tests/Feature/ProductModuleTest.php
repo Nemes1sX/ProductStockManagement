@@ -29,8 +29,20 @@ class ProductModuleTest extends TestCase
                     'size',
                     'description',
                     'photo',
-                    'stock'
+                    'stocks_count'
                 ]]
             ]);
     }
+
+    public function test_import_product_command()
+    {
+        $this->artisan('command:ImportProduct')->assertSuccessful();
+    }
+
+    public function test_import_product_stocks_command()
+    {
+        $this->artisan('command:ImportProduct');
+        $this->artisan('command:ImportStock')->assertSuccessful();
+    }
+
 }

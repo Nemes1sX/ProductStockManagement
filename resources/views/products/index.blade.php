@@ -18,6 +18,7 @@
             <th>Description</th>
             <th>Size</th>
             <th>Photo</th>
+            <th>Stock</th>
             </thead>
             <tbody>
             </tbody>
@@ -41,6 +42,11 @@
                     tableData += '<td><img src="'+data.photo+'" alt="Image" width="150" height="150"></td>';
                     tableData += "<td>" + data.size + "</td>";
                     tableData += "<td>" + data.description + "</td>";
+                    if (data.stocks_count > 0) {
+                        tableData += "<td>" + data.stocks_count + "</td>";
+                    } else {
+                        tableData += "<td>Out of stock</td>";
+                    }
                     tableData += "</tr>";
                 });
                 $('#tableResults').append(tableData);

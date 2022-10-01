@@ -12,7 +12,7 @@ class ProductServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_product_service_successfully_all_product_import() : void
+    public function test_product_service_successfully_all_product_import(): void
     {
         $data = '[{
             "sku": "T-1",
@@ -39,18 +39,18 @@ class ProductServiceTest extends TestCase
         $products = json_decode($products);
 
         $this->assertEquals(count($products), count($data));
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $this->assertDatabaseHas('products', [
-               'sku' => $product->sku,
-               'size' => $product->size,
-               'description' => $product->description,
-               'photo' => $product->photo,
-               'updated_at' => $product->updated_at
+                'sku' => $product->sku,
+                'size' => $product->size,
+                'description' => $product->description,
+                'photo' => $product->photo,
+                'updated_at' => $product->updated_at
             ]);
         }
     }
 
-    public function test_product_service_dont_import_duplicate_product() : void
+    public function test_product_service_dont_import_duplicate_product(): void
     {
         $data = '[{
             "sku": "T-1",
@@ -127,4 +127,22 @@ class ProductServiceTest extends TestCase
         $this->assertEquals($product->first()->photo, $findProduct->photo);
     }
 
+    function test_product_service_import_successfully_product_stocks()
+    {
+        $product = Product::factory(1)->create();
+        $quantity = rand(10, 99);
+        $stock = '[{
+                    "sku": "' . $product->first()->sku . '",
+                    "city": "' . fake()->city() . '",
+                    "stock": "' . $quantity . '"
+                  }]';
+        $stock = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $stock);
+        $stock = json_decode($stock);
+        $productService = new ProductService();
+        $productService->ImportProductsStock($stock);
+
+       $this->assertDatabaseHas('stocks', [
+          'quantity' => $quantity
+       ]);
+    }
 }

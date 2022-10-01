@@ -32,10 +32,10 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Stock:</strong>
-                                @if($product->stock == 0)
+                                @if($product->stocks_count == 0)
                                     Out of stock
                                 @else
-                                    {{ $product->stock }}
+                                    {{ $product->stocks_count }}
                                 @endif
                             </div>
                         </div>
