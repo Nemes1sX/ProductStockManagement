@@ -17,6 +17,3 @@ Route::name('product.')->group(function () {
     Route::get('/product/show/{id}', [\App\Http\Controllers\ProductController::class, 'show'])->name('show');
 });
 
-/*Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');*/
