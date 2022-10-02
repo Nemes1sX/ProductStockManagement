@@ -33,22 +33,22 @@ class ProductService implements IProductService
             foreach (array_chunk($data, 1000) as $chunk) {
                 Product::insert($chunk);
             }
-            for ($i=0; $i<count($data)-1; $i++) {
+            for ($i=0; $i<count($data); $i++) {
                 if (count($tags) == 0) {
                    continue;
                 }
-                $existingProduct = Product::where('sku', $data[$i]['sku'])->get();
+                $existingProduct = Product::where('sku', $data[$i]['sku'])->first();
                 if (!$existingProduct) {
                     continue;
                 }
-                for ($j=0; $j<count($tags)-1; $j++) {
-                    for ($k=0; $k<count($tags[$j])-1; $k++) {
+                for ($j=0; $j<count($tags); $j++) {
+                    for ($k=0; $k<count($tags[$j]); $k++) {
                         $existingTag = Tag::where('name', $tags[$j][$k]->title)->first();
                         if (!$existingTag) {
                             $newTag = Tag::create(['name' => $tags[$j][$k]->title]);
-                            $newTag->products()->attach($existingProduct->id);
+                            $existingProduct->tags()->attach($newTag->id);
                         } else {
-                            $existingTag->products()->attach($existingProduct->id);
+                            $existingProduct->tags()->attach($existingTag->id);
                         }
                     }
                 }
