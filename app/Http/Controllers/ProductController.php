@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Intefaces\IProductService;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -19,9 +18,12 @@ class ProductController extends Controller
 
     public function show(int $id)
     {
-        $product = $this->productService->GetProduct($id);
+        $product = cache()->remember('product-index', 60*1, function () use ($id) {
+           return $this->productService->GetProduct($id);
+        });
         $relatedProducts = $this->productService->GetRelatedProducts($product->id);
 
+        //dd($product->stocks_count);
         return view('products.show', compact('product', 'relatedProducts'));
     }
 

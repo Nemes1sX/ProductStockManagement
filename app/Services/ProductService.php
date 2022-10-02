@@ -7,7 +7,6 @@ use App\Models\Product;
 use App\Models\Stock;
 use App\Models\Tag;
 use Carbon\Carbon;
-use Illuminate\Support\Arr;
 
 class ProductService implements IProductService
 {
@@ -33,22 +32,21 @@ class ProductService implements IProductService
             foreach (array_chunk($data, 1000) as $chunk) {
                 Product::insert($chunk);
             }
-            for ($i=0; $i<count($data); $i++) {
-                if (count($tags) == 0) {
-                   continue;
-                }
-                $existingProduct = Product::where('sku', $data[$i]['sku'])->first();
-                if (!$existingProduct) {
-                    continue;
-                }
-                for ($j=0; $j<count($tags); $j++) {
-                    for ($k=0; $k<count($tags[$j]); $k++) {
-                        $existingTag = Tag::where('name', $tags[$j][$k]->title)->first();
-                        if (!$existingTag) {
-                            $newTag = Tag::create(['name' => $tags[$j][$k]->title]);
-                            $existingProduct->tags()->attach($newTag->id);
-                        } else {
-                            $existingProduct->tags()->attach($existingTag->id);
+            if (count($tags) >= 1) {
+                for ($i = 0; $i < count($data); $i++) {
+                    $existingProduct = Product::where('sku', $data[$i]['sku'])->first();
+                    if (!$existingProduct) {
+                        continue;
+                    }
+                    for ($j = 0; $j < count($tags); $j++) {
+                        for ($k = 0; $k < count($tags[$j]); $k++) {
+                            $existingTag = Tag::where('name', $tags[$j][$k]->title)->first();
+                            if (!$existingTag) {
+                                $newTag = Tag::create(['name' => $tags[$j][$k]->title]);
+                                $existingProduct->tags()->attach($newTag->id);
+                            } else {
+                                $existingProduct->tags()->attach($existingTag->id);
+                            }
                         }
                     }
                 }
@@ -89,9 +87,9 @@ class ProductService implements IProductService
         return Product::withCount('stocks')->get();
     }
 
-    public function GetProduct(int $id): Product
+    public function GetProduct(int $id) : Product
     {
-        return Product::find($id);
+        return Product::where('id', $id)->withCount('stocks')->first();
     }
 
     public function GetRelatedProducts(int $id)

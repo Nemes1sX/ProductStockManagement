@@ -23,19 +23,19 @@
                     <li class="list-group-item">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <strong>SKU</strong>
+                                <strong>SKU:</strong>
                                 {{ $product->sku }}
                             </div>
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="form-group">
+                            <div class="form-group" id="product-stock" style="display: inline-block;">
                                 <strong>Stock:</strong>
                                 @if($product->stocks_count == 0)
-                                    Out of stock
+                                    <p id="product-stock">Out of stock</p>
                                 @else
-                                    {{ $product->stocks_count }}
+                                    <p id="product-stock">{{ $product->stocks_count }}</p>
                                 @endif
                             </div>
                         </div>
@@ -43,18 +43,18 @@
                     <li class="list-group-item">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <strong>Size</strong>
+                                <strong>Size:</strong>
                                 {{ $product->size }}
                             </div>
                         </div>
                     </li>
                     <li class="list-group-item">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>Description</strong>
-                            {{ $product->description }}
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <strong>Description:</strong>
+                                {{ $product->description }}
+                            </div>
                         </div>
-                    </div>
                     </li>
                 </ul>
             </div>
@@ -67,19 +67,31 @@
                 </div>
             </div>
         </div>
-            <div class="row">
+        <div class="row">
             <div class="col-xs-12 col-md-12 col-sm-12">
                 @foreach($relatedProducts as $relatedProduct)
-                    <div class="col-xs-3 col-md-3 col-sm-3 col-xl-3" style="display: inline-block; margin: auto;   justify-content: center; align-items: center;">
+                    <div class="col-xs-3 col-md-3 col-sm-3 col-xl-3"
+                         style="display: inline-block; margin: auto;   justify-content: center; align-items: center;">
                         <img src="{{$relatedProduct->photo}}" alt="Image" width="150" height="150">
                         <br>
-                        {{$relatedProduct->sku}}
+                        <a href="{{route('product.show', $relatedProduct->id)}}">{{$relatedProduct->sku}}</a>
                     </div>
                 @endforeach
             </div>
-            </div>
         </div>
     </div>
-    </div>
-    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var apiurl = "{{route('product.api.update.stock', $product->id)}}";
+            console.log(apiurl);
+            $.ajax({
+                type: "GET",
+                url: apiurl,
+                datatype: "JSON",
+                success: function (result) {
+                    $('#product-stock').val(result);
+                }
+            });
+        });
+    </script>
 @endsection

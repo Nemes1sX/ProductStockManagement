@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get( '/product/index', [\App\Http\Controllers\Api\ProductsApiController::class, 'index'])
-    ->name('product.api.index');
-Route::get('/product/import', [\App\Http\Controllers\Api\ProductsApiController::class, 'import'])
-    ->name('product.api.import');
+Route::prefix('product')->name('product.api.')->group(function () {
+    Route::get( '/index', [\App\Http\Controllers\Api\ProductsApiController::class, 'index'])
+        ->name('index');
+    Route::get('/import/{id}', [\App\Http\Controllers\Api\ProductsApiController::class, 'updateStock'])
+        ->name('update.stock');
+});

@@ -12,9 +12,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', [\App\Http\Controllers\ProductController::class, 'index'])->name('product.index');
-Route::get('/show/{id}', [\App\Http\Controllers\ProductController::class, 'show'])->name('product.show');
+Route::name('product.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\ProductController::class, 'index'])->name('index');
+    Route::get('/product/show/{id}', [\App\Http\Controllers\ProductController::class, 'show'])->name('show');
+});
 
 /*Auth::routes();
 

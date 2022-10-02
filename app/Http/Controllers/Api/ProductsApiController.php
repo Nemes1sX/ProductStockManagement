@@ -21,14 +21,12 @@ class ProductsApiController extends Controller
         ], 200);
     }
 
-    public function import()
+    public function updateStock(int $id)
     {
-        $data =  json_decode(file_get_contents(storage_path()."/products.json"));
-
-        $products = $this->productService->ImportProducts($data);
+        $product = $this->productService->GetProduct($id);
 
         return response()->json([
-            'data' => $products
+           'stock_count' => $product->stocks_count
         ], 200);
     }
 
