@@ -1,7 +1,7 @@
 # Product stock management
 ## Functionality
 1. Import products from json files. Easily extendable to other data formats (XML, Excel, CSV). Use ```command:ImportProduct```
-2. Shows all products with counted stock. Importing stock ```command:ImportStock```
+2. Shows all products with counted stock. Command is used automatically by task sechudling. In this case command is launched every minute
 3. Show single product, although is cached stock data is provided in the real time
 4. Most of functionality is covered by unit and functional tests 
 ## Installation instructions
