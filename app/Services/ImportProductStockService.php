@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class ImportStockService
+class ImportProductStockService
 {
     /**
      * Create a new class instance.

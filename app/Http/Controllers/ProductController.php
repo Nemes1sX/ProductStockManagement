@@ -6,9 +6,12 @@ use App\Intefaces\IProductService;
 
 class ProductController extends Controller
 {
+    private readonly IProductService $productService;
+
     public function __construct(IProductService $productService)
     {
         $this->productService = $productService;
+
     }
 
     public function index()
@@ -23,7 +26,6 @@ class ProductController extends Controller
         });
         $relatedProducts = $this->productService->GetRelatedProducts($product->id);
 
-        //dd($product->stocks_count);
         return view('products.show', compact('product', 'relatedProducts'));
     }
 
