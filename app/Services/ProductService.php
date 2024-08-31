@@ -56,32 +56,6 @@ class ProductService implements IProductService
         return $data;
     }
 
-    public function ImportProductsStock(array $importStocks)
-    {
-        $data = [];
-        foreach ($importStocks as $importStock)
-        {
-            $existingProduct = Product::where('sku', $importStock->sku)->first();
-            if ($existingProduct) {
-                $data[] = [
-                    'city' => $importStock->city,
-                    'quantity' => $importStock->stock,
-                    'product_id' => $existingProduct->id,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
-            }
-
-            if(count($data) >= 1) {
-                foreach (array_chunk($data, 1000) as $chunk) {
-                    Stock::insert($chunk);
-                }
-            }
-        }
-
-        return $data;
-    }
-
     public function GetAllProducts()
     {
         return Product::withCount('stocks')->get();
