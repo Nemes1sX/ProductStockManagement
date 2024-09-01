@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Intefaces\IProductService;
+use App\Interfaces\IImportProductService;
 use Illuminate\Console\Command;
 
 class ImportProduct extends Command
@@ -27,20 +27,20 @@ class ImportProduct extends Command
      * @return int
      */
 
-    protected IProductService $productService;
+    protected IImportProductService $importProductService;
 
-    public function __construct(IProductService $productService)
+    public function __construct(IImportProductService $importProductService)
     {
         parent::__construct();
 
-        $this->productService = $productService;
+        $this->importProductService= $importProductService;
     }
 
     public function handle()
     {
         $data = json_decode(file_get_contents(storage_path()."/products.json"));
 
-        $this->productService->ImportProducts($data);
+        $this->importProductService->ImportProducts($data);
 
         $this->info("Importing products was successfully");
     }

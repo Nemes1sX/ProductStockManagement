@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Intefaces\IProductService;
+use App\Interfaces\IProductService;
 use App\Interfaces\IImportProductService;
 use App\Interfaces\IImportProductStockService;
 use App\Services\ImportProductService;
