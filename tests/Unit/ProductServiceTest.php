@@ -3,8 +3,9 @@
 namespace Tests\Unit;
 
 use App\Models\Product;
+use App\Services\ImportProductService;
+use App\Services\ImportProductStockService;
 use App\Services\ProductService;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -39,10 +40,10 @@ class ProductServiceTest extends TestCase
             "updated_at": "2022-05-31"
             }]';
 
-        $productService = new ProductService();
+        $importProductsService= new ImportProductService();
         $data = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $data);
         $data = json_decode($data);
-        $products = $productService->ImportProducts($data);
+        $products = $importProductsService->importProducts($data);
 
         $products = json_encode($products);
         $products = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $products);
@@ -87,10 +88,10 @@ class ProductServiceTest extends TestCase
             "updated_at": "2022-05-31"
             }]';
 
-        $productService = new ProductService();
+        $importProductsService = new ImportProductService();
         $data = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $data);
         $data = json_decode($data);
-        $productService->ImportProducts($data);
+        $importProductsService->importProducts($data);
 
         $data = '[{
             "sku": "T-1",
@@ -106,7 +107,7 @@ class ProductServiceTest extends TestCase
             }]';
         $data = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $data);
         $data = json_decode($data);
-        $products = $productService->ImportProducts($data);
+        $products = $importProductsService->importProducts($data);
 
         $this->assertEquals(0, count($products));
     }
@@ -115,7 +116,7 @@ class ProductServiceTest extends TestCase
     {
         Product::factory(1)->create();
         $productService = new ProductService();
-        $products = $productService->GetAllProducts();
+        $products = $productService->getAllProducts();
 
         $this->assertEquals(1, count($products));
     }
@@ -123,7 +124,7 @@ class ProductServiceTest extends TestCase
     function test_product_service_get_products_if_list_empty()
     {
         $productService = new ProductService();
-        $products = $productService->GetAllProducts();
+        $products = $productService->getAllProducts();
 
         $this->assertEquals(0, count($products));
     }
@@ -133,7 +134,7 @@ class ProductServiceTest extends TestCase
         $products = Product::factory(4)->create();
 
         $productService = new ProductService();
-        $relatedProducts = $productService->GetRelatedProducts($products->first()->id);
+        $relatedProducts = $productService->getRelatedProducts($products->first()->id);
 
         $this->assertEquals(3, count($relatedProducts));
     }
@@ -143,7 +144,7 @@ class ProductServiceTest extends TestCase
         $product = Product::factory(1)->create();
 
         $productService = new ProductService();
-        $findProduct = $productService->GetProduct($product->first()->id);
+        $findProduct = $productService->getProduct($product->first()->id);
 
         $this->assertEquals($product->first()->id, $findProduct->id);
         $this->assertEquals($product->first()->sku, $findProduct->sku);
@@ -163,8 +164,8 @@ class ProductServiceTest extends TestCase
                   }]';
         $stock = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $stock);
         $stock = json_decode($stock);
-        $productService = new ProductService();
-        $productService->ImportProductsStock($stock);
+        $importProductStockSerivce = new ImportProductStockService();
+        $importProductStockSerivce->importProductsStock($stock);
 
        $this->assertDatabaseHas('stocks', [
           'quantity' => $quantity

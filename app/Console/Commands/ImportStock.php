@@ -40,7 +40,7 @@ class ImportStock extends Command
     {
         $data = json_decode(file_get_contents(storage_path()."/stocks.json"));
 
-        $this->productStockService->ImportProductsStock($data);
+        $this->productStockService->importProductsStock($data);
 
         $this->info('Product stock was successfully imported');
     }

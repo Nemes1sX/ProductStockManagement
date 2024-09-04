@@ -8,17 +8,17 @@ use App\Models\Product;
 class ProductService implements IProductService
 {
     
-    public function GetAllProducts()
+    public function getAllProducts()
     {
         return Product::withCount('stocks')->get();
     }
 
-    public function GetProduct(int $id) : Product
+    public function getProduct(int $id) : Product
     {
         return Product::where('id', $id)->withCount('stocks')->first();
     }
 
-    public function GetRelatedProducts(int $id)
+    public function getRelatedProducts(int $id)
     {
         return Product::all()->random(3);
     }

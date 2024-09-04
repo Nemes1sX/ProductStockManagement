@@ -18,7 +18,7 @@ class ImportProductService implements IImportProductService
         //
     }
 
-    public function ImportProducts(array $importProducts) : array
+    public function importProducts(array $importProducts) : array
     {
         $data = [];
         $tags = [];
@@ -51,9 +51,9 @@ class ImportProductService implements IImportProductService
                             $existingTag = Tag::where('name', $tags[$j][$k]->title)->first();
                             if (!$existingTag) {
                                 $newTag = Tag::create(['name' => $tags[$j][$k]->title]);
-                                $existingProduct->tags()->attach($newTag->id);
+                                $existingProduct->tags()->syncWithoutDetaching($newTag->id);
                             } else {
-                                $existingProduct->tags()->attach($existingTag->id);
+                                $existingProduct->tags()->syncWithoutDetaching($existingTag->id);
                             }
                         }
                     }

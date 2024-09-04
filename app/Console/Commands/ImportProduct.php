@@ -40,7 +40,7 @@ class ImportProduct extends Command
     {
         $data = json_decode(file_get_contents(storage_path()."/products.json"));
 
-        $this->importProductService->ImportProducts($data);
+        $this->importProductService->importProducts($data);
 
         $this->info("Importing products was successfully");
     }

@@ -16,7 +16,7 @@ class ImportProductStockService implements IImportProductStockService
         //
     }
 
-    public function ImportProductsStock(array $importStocks)
+    public function importProductsStock(array $importStocks)
     {
         $data = [];
         foreach ($importStocks as $importStock)
