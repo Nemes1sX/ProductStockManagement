@@ -16,8 +16,11 @@ class ImportProductStockService implements IImportProductStockService
         //
     }
 
-    public function importProductsStock(array $importStocks)
+    public function importProductsStock(array $importStocks) : void 
     {
+        if (count($importStocks) === 0) {
+            return;
+        }
         $data = [];
         foreach ($importStocks as $importStock)
         {
@@ -33,13 +36,12 @@ class ImportProductStockService implements IImportProductStockService
             }      
         }
 
-        if(count($data) >= 1) {
-            foreach (array_chunk($data, 1000) as $chunk) {
-                Stock::insert($chunk);
-            }
+        if(count($data) === 0) {
+            return;
         }
 
-        return $data;
+         foreach (array_chunk($data, 1000) as $chunk) {
+            Stock::insert($chunk);
+        }
     }
-   
 }

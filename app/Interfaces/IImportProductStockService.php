@@ -4,5 +4,5 @@ namespace App\Interfaces;
 
 interface IImportProductStockService
 {
-    function ImportProductsStock(array $importStocks);
+    function ImportProductsStock(array $importStocks) : void;
 }

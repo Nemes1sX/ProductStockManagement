@@ -18,20 +18,21 @@ class ImportProductService implements IImportProductService
         //
     }
 
-    public function importProducts(array $importProducts) : void
+    public function importProducts(array $importProducts): void
     {
         if (count($importProducts) == 0) {
             return;
-        }    
+        }
+
         foreach ($importProducts as $importProduct) {
             $product = Product::firstOrCreate(
                 ['sku' => $importProduct->sku],
                 [
-                 'description' => $importProduct->description,
-                 'size' => $importProduct->size,
-                 'photo' => $importProduct->photo,    
+                    'description' => $importProduct->description,
+                    'size' => $importProduct->size,
+                    'photo' => $importProduct->photo,
                 ]
-                );
+            );
             foreach ($importProduct->tags as $productTag) {
                 $tag = Tag::firstOrCreate(['name' => $productTag->title], []);
                 $product->tags()->syncWithoutDetaching($tag->id);
