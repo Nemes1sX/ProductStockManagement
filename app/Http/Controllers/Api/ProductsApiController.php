@@ -7,6 +7,8 @@ use App\Interfaces\IProductService;
 
 class ProductsApiController extends Controller
 {
+    protected IProductService $productService;
+
     public function __construct(IProductService $productService)
     {
         $this->productService = $productService;
