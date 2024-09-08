@@ -7,6 +7,6 @@ use App\Models\Product;
 interface IProductService
 {
     function getAllProducts();
-    function getProduct(int $id) : Product;
+    function getProduct(Product $product) : Product;
     function getRelatedProducts(int $id);
 }

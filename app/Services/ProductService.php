@@ -13,9 +13,9 @@ class ProductService implements IProductService
         return Product::withCount('stocks')->get();
     }
 
-    public function getProduct(int $id) : Product
+    public function getProduct(Product $product) : Product
     {
-        return Product::where('id', $id)->withCount('stocks')->first();
+        return $product->loadCount('stocks');
     }
 
     public function getRelatedProducts(int $id)
