@@ -21,7 +21,13 @@ class ProductsApiController extends Controller
         $products = $this->productService->getAllProducts();
 
         return response()->json([
-            'data' => ProductsResource::collection($products)
+            'data' => ProductsResource::collection($products),
+            'current_page' => $products->currentPage(),
+            'last_page' => $products->lastPage(),
+            'total_records' => $products->total(),
+            'total_pages' => $products->last(),
+            'prev_page_url' => $products->previousPageUrl(),
+            'next_page_url' => $products->nextPageUrl()
         ], 200);
     }
 

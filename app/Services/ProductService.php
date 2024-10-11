@@ -10,7 +10,7 @@ class ProductService implements IProductService
     
     public function getAllProducts()
     {
-        return Product::withCount('stocks')->get();
+        return Product::withCount('stocks')->paginate(10);
     }
 
     public function getProduct(Product $product) : Product
