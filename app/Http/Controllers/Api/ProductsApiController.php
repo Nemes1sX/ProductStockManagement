@@ -25,7 +25,7 @@ class ProductsApiController extends Controller
             'current_page' => $products->currentPage(),
             'last_page' => $products->lastPage(),
             'total_records' => $products->total(),
-            'total_pages' => $products->last(),
+            'total_pages' => $products->lastPage(),
             'prev_page_url' => $products->previousPageUrl(),
             'next_page_url' => $products->nextPageUrl()
         ], 200);

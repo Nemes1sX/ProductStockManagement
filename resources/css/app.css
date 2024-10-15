@@ -1,0 +1,4 @@
+.not-clickable {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
