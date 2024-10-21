@@ -4,16 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductsResource;
+use App\Interfaces\IImportProductService;
 use App\Interfaces\IProductService;
 use App\Models\Product;
+use Illuminate\Support\Str;
+use stdClass;
 
 class ProductsApiController extends Controller
 {
-    protected IProductService $productService;
+    protected readonly IProductService $productService;
+    protected readonly IImportProductService $importProductService;
 
-    public function __construct(IProductService $productService)
+    public function __construct(IProductService $productService, IImportProductService $importProductService)
     {
         $this->productService = $productService;
+        $this->importProductService = $importProductService;
     }
 
     public function index()
@@ -23,7 +28,6 @@ class ProductsApiController extends Controller
         return response()->json([
             'data' => ProductsResource::collection($products),
             'current_page' => $products->currentPage(),
-            'last_page' => $products->lastPage(),
             'total_records' => $products->total(),
             'total_pages' => $products->lastPage(),
             'prev_page_url' => $products->previousPageUrl(),
