@@ -4,11 +4,13 @@ namespace App\Services;
 
 use App\Interfaces\IProductService;
 use App\Models\Product;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProductService implements IProductService
 {
     
-    public function getAllProducts()
+    public function getAllProducts() : LengthAwarePaginator
     {
         return Product::withCount('stocks')->paginate(10);
     }
@@ -18,7 +20,7 @@ class ProductService implements IProductService
         return $product->loadCount('stocks');
     }
 
-    public function getRelatedProducts(int $id)
+    public function getRelatedProducts() : Collection
     {
         return Product::all()->random(3);
     }
