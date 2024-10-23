@@ -83,7 +83,6 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var apiurl = "{{route('product.api.update.stock', $product->id)}}";
-            console.log(apiurl);
             $.ajax({
                 type: "GET",
                 url: apiurl,
