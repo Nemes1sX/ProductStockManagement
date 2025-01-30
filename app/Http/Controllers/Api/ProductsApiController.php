@@ -7,12 +7,12 @@ use App\Http\Resources\ProductsResource;
 use App\Interfaces\IImportProductService;
 use App\Interfaces\IProductService;
 use App\Models\Product;
-use Illuminate\Support\Str;
-use stdClass;
+use Illuminate\Http\JsonResponse;
 
 class ProductsApiController extends Controller
 {
     protected readonly IProductService $productService;
+
     protected readonly IImportProductService $importProductService;
 
     public function __construct(IProductService $productService, IImportProductService $importProductService)
@@ -21,7 +21,7 @@ class ProductsApiController extends Controller
         $this->importProductService = $importProductService;
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
         $products = $this->productService->getAllProducts();
 
@@ -31,17 +31,16 @@ class ProductsApiController extends Controller
             'total_records' => $products->total(),
             'total_pages' => $products->lastPage(),
             'prev_page_url' => $products->previousPageUrl(),
-            'next_page_url' => $products->nextPageUrl()
+            'next_page_url' => $products->nextPageUrl(),
         ], 200);
     }
 
-    public function updateStock(Product $product)
+    public function updateStock(Product $product): JsonResponse
     {
         $product = $this->productService->getProduct($product);
 
         return response()->json([
-           'stock_count' => $product->stocks_count
+            'stock_count' => $product->stocks_count,
         ], 200);
     }
-
 }
