@@ -4,13 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ProductModuleTest extends TestCase
 {
-
     use RefreshDatabase;
+
     /**
      * A basic feature test example.
      *
@@ -20,7 +19,7 @@ class ProductModuleTest extends TestCase
     {
         Product::factory()->create();
 
-        $this->json('GET', "api/product/index", ['Accept' => 'application/json'])
+        $this->json('GET', 'api/product/index', ['Accept' => 'application/json'])
             ->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [[
@@ -29,8 +28,8 @@ class ProductModuleTest extends TestCase
                     'size',
                     'description',
                     'photo',
-                    'stocks_count'
-                ]]
+                    'stocks_count',
+                ]],
             ]);
     }
 
@@ -44,5 +43,4 @@ class ProductModuleTest extends TestCase
         $this->artisan('command:ImportProduct');
         $this->artisan('command:ImportStock')->assertSuccessful();
     }
-
 }

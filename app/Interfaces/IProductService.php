@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface IProductService
 {
-    function getAllProducts() : LengthAwarePaginator;
-    function getProduct(Product $product) : Product;
-    function getRelatedProducts() : Collection;
+    public function getAllProducts(): LengthAwarePaginator;
+
+    public function getProduct(Product $product): Product;
+
+    public function getRelatedProducts(): Collection;
 }

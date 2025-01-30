@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Interfaces\IProductService;
 use App\Interfaces\IImportProductService;
 use App\Interfaces\IImportProductStockService;
+use App\Interfaces\IProductService;
 use App\Services\ImportProductService;
-use App\Services\ProductService;
 use App\Services\ImportProductStockService;
+use App\Services\ProductService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

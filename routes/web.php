@@ -16,4 +16,3 @@ Route::name('product.')->group(function () {
     Route::get('/', [\App\Http\Controllers\ProductController::class, 'index'])->name('index');
     Route::get('/product/show/{id}', [\App\Http\Controllers\ProductController::class, 'show'])->name('show');
 });
-

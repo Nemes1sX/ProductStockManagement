@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\ProductsApiController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('product')->controller(ProductsApiController::class)->name('product.api.')->group(function () {
-    Route::get( '/index', 'index')->name('index');
-    Route::get('/update-stock/{id}',  'updateStock')->name('update.stock');
+    Route::get('/index', 'index')->name('index');
+    Route::get('/update-stock/{id}', 'updateStock')->name('update.stock');
 });

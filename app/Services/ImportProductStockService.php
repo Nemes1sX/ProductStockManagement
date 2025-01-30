@@ -16,14 +16,13 @@ class ImportProductStockService implements IImportProductStockService
         //
     }
 
-    public function importProductsStock(array $importStocks) : void 
+    public function importProductsStock(array $importStocks): void
     {
         if (count($importStocks) === 0) {
             return;
         }
         $data = [];
-        foreach ($importStocks as $importStock)
-        {
+        foreach ($importStocks as $importStock) {
             $existingProduct = Product::where('sku', $importStock->sku)->first();
             if ($existingProduct) {
                 $data[] = [
@@ -31,16 +30,16 @@ class ImportProductStockService implements IImportProductStockService
                     'quantity' => $importStock->stock,
                     'product_id' => $existingProduct->id,
                     'created_at' => now(),
-                    'updated_at' => now()
+                    'updated_at' => now(),
                 ];
-            }      
+            }
         }
 
-        if(count($data) === 0) {
+        if (count($data) === 0) {
             return;
         }
 
-         foreach (array_chunk($data, 1000) as $chunk) {
+        foreach (array_chunk($data, 1000) as $chunk) {
             Stock::insert($chunk);
         }
     }

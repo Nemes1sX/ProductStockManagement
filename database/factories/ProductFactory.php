@@ -20,7 +20,7 @@ class ProductFactory extends Factory
             'sku' => 'SK-'.rand(100, 999),
             'size' => 'L',
             'photo' => fake()->image(),
-            'description' => fake()->text()
+            'description' => fake()->text(),
         ];
     }
 }

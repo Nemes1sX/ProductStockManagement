@@ -40,7 +40,7 @@ class ProductServiceTest extends TestCase
             "updated_at": "2022-05-31"
             }]';
 
-        $importProductsService= new ImportProductService();
+        $importProductsService = new ImportProductService;
         $data = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $data);
         $data = json_decode($data);
         $products = $importProductsService->importProducts($data);
@@ -56,7 +56,7 @@ class ProductServiceTest extends TestCase
                 'size' => $product->size,
                 'description' => $product->description,
                 'photo' => $product->photo,
-                'updated_at' => $product->updated_at
+                'updated_at' => $product->updated_at,
             ]);
         }
     }
@@ -88,7 +88,7 @@ class ProductServiceTest extends TestCase
             "updated_at": "2022-05-31"
             }]';
 
-        $importProductsService = new ImportProductService();
+        $importProductsService = new ImportProductService;
         $data = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $data);
         $data = json_decode($data);
         $importProductsService->importProducts($data);
@@ -112,38 +112,38 @@ class ProductServiceTest extends TestCase
         $this->assertEquals(0, count($products));
     }
 
-    function test_product_service_get_products_if_list_not_empty()
+    public function test_product_service_get_products_if_list_not_empty()
     {
         Product::factory(1)->create();
-        $productService = new ProductService();
+        $productService = new ProductService;
         $products = $productService->getAllProducts();
 
         $this->assertEquals(1, count($products));
     }
 
-    function test_product_service_get_products_if_list_empty()
+    public function test_product_service_get_products_if_list_empty()
     {
-        $productService = new ProductService();
+        $productService = new ProductService;
         $products = $productService->getAllProducts();
 
         $this->assertEquals(0, count($products));
     }
 
-    function test_product_service_return_related_products()
+    public function test_product_service_return_related_products()
     {
         $products = Product::factory(4)->create();
 
-        $productService = new ProductService();
+        $productService = new ProductService;
         $relatedProducts = $productService->getRelatedProducts($products->first()->id);
 
         $this->assertEquals(3, count($relatedProducts));
     }
 
-    function test_product_service_get_product_if_it_find()
+    public function test_product_service_get_product_if_it_find()
     {
         $product = Product::factory(1)->create();
 
-        $productService = new ProductService();
+        $productService = new ProductService;
         $findProduct = $productService->getProduct($product->first()->id);
 
         $this->assertEquals($product->first()->id, $findProduct->id);
@@ -153,22 +153,22 @@ class ProductServiceTest extends TestCase
         $this->assertEquals($product->first()->photo, $findProduct->photo);
     }
 
-    function test_product_service_import_successfully_product_stocks()
+    public function test_product_service_import_successfully_product_stocks()
     {
         $product = Product::factory(1)->create();
         $quantity = rand(10, 99);
         $stock = '[{
-                    "sku": "' . $product->first()->sku . '",
-                    "city": "' . fake()->city() . '",
-                    "stock": "' . $quantity . '"
+                    "sku": "'.$product->first()->sku.'",
+                    "city": "'.fake()->city().'",
+                    "stock": "'.$quantity.'"
                   }]';
         $stock = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $stock);
         $stock = json_decode($stock);
-        $importProductStockSerivce = new ImportProductStockService();
+        $importProductStockSerivce = new ImportProductStockService;
         $importProductStockSerivce->importProductsStock($stock);
 
-       $this->assertDatabaseHas('stocks', [
-          'quantity' => $quantity
-       ]);
+        $this->assertDatabaseHas('stocks', [
+            'quantity' => $quantity,
+        ]);
     }
 }

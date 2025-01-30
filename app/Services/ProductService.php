@@ -9,18 +9,17 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProductService implements IProductService
 {
-    
-    public function getAllProducts() : LengthAwarePaginator
+    public function getAllProducts(): LengthAwarePaginator
     {
         return Product::withCount('stocks')->paginate(10);
     }
 
-    public function getProduct(Product $product) : Product
+    public function getProduct(Product $product): Product
     {
         return $product->loadCount('stocks');
     }
 
-    public function getRelatedProducts() : Collection
+    public function getRelatedProducts(): Collection
     {
         return Product::all()->random(3);
     }
